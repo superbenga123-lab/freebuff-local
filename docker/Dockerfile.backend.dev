@@ -1,0 +1,18 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dependencies
+COPY backend/package*.json ./
+RUN npm ci
+
+# Copy source
+COPY backend/src ./src
+COPY backend/tests ./tests
+
+# Create necessary directories
+RUN mkdir -p .freebuff logs
+
+EXPOSE 3001
+
+CMD ["npm", "run", "dev"]

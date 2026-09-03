@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # Backend
+  backend:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.backend
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      FRONTEND_URL: http://localhost:5173
+      LLAMA_URL: http://llama:8080
+    volumes:
+      - ./workspace:/app/workspace
+      - ./models:/app/models
+      - ./.freebuff:/app/.freebuff
+    depends_on:
+      - llama
+    networks:
+      - freebuff
+
+  # Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:3001
+      VITE_SOCKET_URL: http://localhost:3001
+    depends_on:
+      - backend
+    networks:
+      - freebuff
+
+  # Llama.cpp
+  llama:
+    image: ghcr.io/ggerganov/llama.cpp:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./models:/models
+    command: |
+      -m /models/llama-3.1-8b-gguf
+      --host 0.0.0.0
+      --port 8080
+      -ngl 0
+      -c 4096
+    networks:
+      - freebuff
+
+  # ChromaDB
+  chromadb:
+    image: chromadb/chroma:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./chromadb:/chroma/chroma
+    networks:
+      - freebuff
+
+networks:
+  freebuff:
+    driver: bridge
+
+volumes:
+  workspace:
+  models:
+  chromadb:
