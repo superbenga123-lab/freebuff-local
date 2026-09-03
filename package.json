@@ -1,25 +1,40 @@
 {
-  "name": "freebuff-local",
+  "name": "freebuff",
   "version": "1.0.0",
-  "description": "IDE local estilo Cursor com IA offline - React + Vite + Monaco + llama.cpp + SQLite",
+  "description": "IDE local estilo Cursor com IA offline",
+  "main": "electron-main.js",
+  "homepage": "./",
   "private": true,
   "type": "module",
   "scripts": {
     "install-all": "npm install --prefix frontend && npm install --prefix backend",
     "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "dev:electron": "electron .",
     "dev:backend": "npm run dev --prefix backend",
     "dev:frontend": "npm run dev --prefix frontend",
     "build": "npm run build --prefix frontend && npm run build --prefix backend",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:backend": "npm run build --prefix backend",
     "test": "npm run test --prefix backend && npm run test --prefix frontend",
     "test:backend": "npm run test --prefix backend",
     "test:frontend": "npm run test --prefix frontend",
     "lint": "npm run lint --prefix backend && npm run lint --prefix frontend",
-    "type-check": "npm run type-check --prefix frontend"
+    "type-check": "npm run type-check --prefix frontend",
+    "setup:windows": "node scripts/setup-windows.js",
+    "build:windows": "npm run build:frontend && npm run build:backend && electron-builder --win --publish=never",
+    "build:windows:portable": "npm run build:frontend && npm run build:backend && electron-builder --win portable",
+    "build:windows:installer": "npm run build:frontend && npm run build:backend && electron-builder --win nsis",
+    "clean:build": "rm -rf release dist electron-builder-cache .electron-builder",
+    "electron-builder": "electron-builder"
   },
   "dependencies": {
     "concurrently": "^8.2.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "electron": "^latest",
+    "electron-builder": "^latest",
+    "electron-is-dev": "^latest"
+  },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
