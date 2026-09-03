@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.backend.dev
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      LOG_LEVEL: debug
+    volumes:
+      - ./backend:/app
+      - ./workspace:/app/workspace
+      - ./models:/app/models
+    networks:
+      - freebuff-dev
+    command: npm run dev
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.frontend.dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - freebuff-dev
+    depends_on:
+      - backend
+
+networks:
+  freebuff-dev:
+    driver: bridge
