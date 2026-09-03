@@ -1,0 +1,71 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Frontend
+frontend/dist/
+frontend/.env.local
+frontend/.env.*.local
+frontend/coverage/
+frontend/.cache/
+
+# Backend
+backend/dist/
+backend/.env.local
+backend/coverage/
+backend/logs/
+backend/tmp/
+
+# Project
+workspace/projects/
+workspace/cache/
+.freebuff/cache/
+.freebuff/state.json
+.freebuff/metadata.json
+
+# Models
+models/*.gguf
+models/*.bin
+models/cache/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+chromadb/
+embeddings/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Temporary
+tmp/
+temp/
+.tmp/
+
+# Logs
+logs/
+*.log
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Build
+dist/
+build/
+out/
